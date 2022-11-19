@@ -1,0 +1,120 @@
+{% load static %} {% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- <style>
+        body {
+            background: url('{% static "recognition/img/bg_img.jpg"%}') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style> -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Features</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li>
+                    <a class="nav-item nav-link" href="/view_my_attendance">View Attendance</a>
+                </li>
+                <li>
+                    <a class="nav-item nav-link" href="/add_photos">Add FaceID</a>
+                </li>
+
+                {% else %}
+                <li>
+                    <a class="nav-item nav-link" href="/signup">Register</a>
+                </li>
+
+                {% endif %}
+            </ul>
+
+            {% if user.is_authenticated %}
+            <span class="navbar-text">
+                Hello {{user.get_short_name}}!
+            </span>
+            <a class="nav-item nav-link" href="/signout">LogOut</a>
+            {% else %}
+            <a class="nav-item nav-link" href="/signin">LogIn</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="col-lg-4" style="background: rgba(0,0,0,0.6);margin-top:150px ; padding-top:1em;padding-bottom:3em;color:#fff;border-radius:10px;-webkit-box-shadow: 2px 2px 15px 0px rgba(0, 3, 0, 0.7);
+-moz-box-shadow:    2px 2px 15px 0px rgba(0, 3, 0, 0.7);
+box-shadow:         2px 2px 15px 0px rgba(0, 3, 0, 0.7); margin-left:auto; margin-right: auto; ">
+        <div class="col-lg-12">
+            {% if messages %} {% for message in messages%}
+            <div class="alert alert-{{message.tags}}">
+                <center> {{message}}</center>
+            </div>
+            {%endfor %} {%endif%}
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    <center> Add your face data </center>
+                </legend>
+                <!-- {{form| crispy}} -->
+            </fieldset>
+
+
+            <center>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit"> Register FaceID</button>
+                </div>
+            </center>
+
+        </form>
+        <center>
+            {% if messages %} {% for message in messages %}
+            <a href="/train/"><button class="btn btn-outline-info">Train Model</button></a>
+            {% endfor %} {% endif %}
+        </center>
+    </div>
+
+
+
+
+</body>
+
+</html>
